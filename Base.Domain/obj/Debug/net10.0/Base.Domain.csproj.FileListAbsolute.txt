@@ -1,0 +1,15 @@
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\bin\Debug\net10.0\Base.Domain.deps.json
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\bin\Debug\net10.0\Base.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\bin\Debug\net10.0\Base.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\bin\Debug\net10.0\Base.Contracts.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\bin\Debug\net10.0\Base.Contracts.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.csproj.AssemblyReference.cache
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.AssemblyInfoInputs.cache
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.AssemblyInfo.cs
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.csproj.CoreCompileInputs.cache
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Dom.FA02210C.Up2Date
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\refint\Base.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\Base.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Domain\obj\Debug\net10.0\ref\Base.Domain.dll
