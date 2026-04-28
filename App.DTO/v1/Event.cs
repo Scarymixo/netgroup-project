@@ -8,7 +8,8 @@ public class Event
 
     [StringLength(128, MinimumLength = 1)]
     public string EventName { get; set; } = default!;
-
+    
+    [Range(1, 100000)]
     public int MaxParticipants { get; set; }
 
     public DateTime StartTime { get; set; }

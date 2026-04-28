@@ -14,6 +14,6 @@ public class Participant : BaseEntity
     [StringLength(50, MinimumLength = 1)] 
     public string LastName { get; set; } = default!;
     
-    [StringLength(25, MinimumLength = 1)] 
+    [StringLength(25, MinimumLength = 1)]
     public string NationalId { get; set; } = default!;
 }
