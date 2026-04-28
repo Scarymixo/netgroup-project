@@ -1,3 +1,4 @@
+using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,17 +55,37 @@ namespace WebApp.ApiControllers
         // POST: api/v1/Participants
         [HttpPost]
         [ProducesResponseType(typeof(ParticipantDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(RestApiErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<ActionResult<ParticipantDto>> PostParticipant(ParticipantDto dto)
         {
+            var @event = await _context.Events.FindAsync(dto.EventId);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
             var entity = ParticipantMapper.Map(dto);
             entity.Id = Guid.NewGuid();
+
+            await using var tx = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+
+            var currentCount = await _context.Participants.CountAsync(p => p.EventId == dto.EventId);
+            if (currentCount >= @event.MaxParticipants)
+            {
+                return Conflict(new RestApiErrorResponse
+                {
+                    Status = HttpStatusCode.Conflict,
+                    Error = "Event is full"
+                });
+            }
 
             _context.Participants.Add(entity);
 
             try
             {
                 await _context.SaveChangesAsync();
+                await tx.CommitAsync();
             }
             catch (DbUpdateException)
             {

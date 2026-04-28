@@ -1,7 +1,9 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
 using App.Domain.Identity;
+using App.DTO.v1;
 using App.DTO.v1.Mappers;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -68,6 +70,16 @@ namespace WebApp.ApiControllers
             if (existing == null)
             {
                 return NotFound();
+            }
+
+            var currentCount = await _context.Participants.CountAsync(p => p.EventId == id);
+            if (dto.MaxParticipants < currentCount)
+            {
+                return BadRequest(new RestApiErrorResponse
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    Error = $"MaxParticipants below current registered count ({currentCount})"
+                });
             }
 
             existing.EventName = dto.EventName;

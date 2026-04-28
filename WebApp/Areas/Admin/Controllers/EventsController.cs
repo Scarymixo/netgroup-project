@@ -112,6 +112,14 @@ public class EventsController : Controller
                 var existing = await _context.Events.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
                 if (existing == null) return NotFound();
 
+                var currentCount = await _context.Participants.CountAsync(p => p.EventId == id);
+                if (@event.MaxParticipants < currentCount)
+                {
+                    ModelState.AddModelError(nameof(Event.MaxParticipants),
+                        $"MaxParticipants cannot be lower than current registered count ({currentCount}).");
+                    return View(@event);
+                }
+
                 @event.StartTime = DateTime.SpecifyKind(@event.StartTime, DateTimeKind.Utc);
                 @event.EndTime = DateTime.SpecifyKind(@event.EndTime, DateTimeKind.Utc);
                 @event.AppUserId = existing.AppUserId;

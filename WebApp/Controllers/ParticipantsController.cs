@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -61,9 +62,36 @@ namespace WebApp.Areas_Admin_Controllers
         {
             if (ModelState.IsValid)
             {
+                var @event = await _context.Events.FindAsync(participant.EventId);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+
                 participant.Id = Guid.NewGuid();
+
+                await using var tx = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+
+                var currentCount = await _context.Participants.CountAsync(p => p.EventId == participant.EventId);
+                if (currentCount >= @event.MaxParticipants)
+                {
+                    ModelState.AddModelError(string.Empty, "Event is full");
+                    ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
+                    return View(participant);
+                }
+
                 _context.Add(participant);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    await tx.CommitAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError(string.Empty, "Already registered for this event");
+                    ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
+                    return View(participant);
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
