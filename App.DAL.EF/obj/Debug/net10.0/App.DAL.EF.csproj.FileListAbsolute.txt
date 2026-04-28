@@ -17,3 +17,4 @@ C:\Users\mikos\RiderProjects\NetGroupProject\App.DAL.EF\obj\Debug\net10.0\App.DA
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DAL.EF\obj\Debug\net10.0\refint\App.DAL.EF.dll
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DAL.EF\obj\Debug\net10.0\App.DAL.EF.pdb
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DAL.EF\obj\Debug\net10.0\ref\App.DAL.EF.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DAL.EF\obj\Debug\net10.0\App.DAL.EF.sourcelink.json
