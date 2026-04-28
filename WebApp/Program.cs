@@ -105,6 +105,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<App.BLL.Services.ParticipantService>();
+builder.Services.AddScoped<App.BLL.Services.EventService>();
+
 builder.Services.AddControllersWithViews();
 
 

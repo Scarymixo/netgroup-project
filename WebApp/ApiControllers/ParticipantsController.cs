@@ -1,7 +1,7 @@
-using System.Data;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using App.BLL.Services;
 using App.DAL.EF;
 using App.DTO.v1;
 using App.DTO.v1.Mappers;
@@ -19,10 +19,12 @@ namespace WebApp.ApiControllers
     public class ParticipantsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ParticipantService _participantService;
 
-        public ParticipantsController(AppDbContext context)
+        public ParticipantsController(AppDbContext context, ParticipantService participantService)
         {
             _context = context;
+            _participantService = participantService;
         }
 
         // GET: api/v1/Participants
@@ -59,45 +61,28 @@ namespace WebApp.ApiControllers
         [ProducesResponseType(typeof(RestApiErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<ActionResult<ParticipantDto>> PostParticipant(ParticipantDto dto)
         {
-            var @event = await _context.Events.FindAsync(dto.EventId);
-            if (@event == null)
+            var result = await _participantService.RegisterAsync(ParticipantMapper.Map(dto));
+
+            switch (result.Status)
             {
-                return NotFound();
+                case ParticipantRegistrationStatus.EventNotFound:
+                    return NotFound();
+                case ParticipantRegistrationStatus.EventFull:
+                    return Conflict(new RestApiErrorResponse
+                    {
+                        Status = HttpStatusCode.Conflict,
+                        Error = "Event is full"
+                    });
+                case ParticipantRegistrationStatus.DuplicateRegistration:
+                    return Conflict(new RestApiErrorResponse
+                    {
+                        Status = HttpStatusCode.Conflict,
+                        Error = "Already registered for this event"
+                    });
             }
 
-            var entity = ParticipantMapper.Map(dto);
-            entity.Id = Guid.NewGuid();
-
-            await using var tx = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-
-            var currentCount = await _context.Participants.CountAsync(p => p.EventId == dto.EventId);
-            if (currentCount >= @event.MaxParticipants)
-            {
-                return Conflict(new RestApiErrorResponse
-                {
-                    Status = HttpStatusCode.Conflict,
-                    Error = "Event is full"
-                });
-            }
-
-            _context.Participants.Add(entity);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                await tx.CommitAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return Conflict(new RestApiErrorResponse
-                {
-                    Status = HttpStatusCode.Conflict,
-                    Error = "Already registered for this event"
-                });
-            }
-
-            var result = ParticipantMapper.Map(entity);
-            return CreatedAtAction(nameof(GetParticipant), new { id = result.Id, version = "1.0" }, result);
+            var mapped = ParticipantMapper.Map(result.Participant!);
+            return CreatedAtAction(nameof(GetParticipant), new { id = mapped.Id, version = "1.0" }, mapped);
         }
     }
 }

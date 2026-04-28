@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using App.BLL.Services;
 using App.DAL.EF;
 using App.Domain;
 
@@ -14,10 +14,12 @@ namespace WebApp.Areas_Admin_Controllers
     public class ParticipantsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ParticipantService _participantService;
 
-        public ParticipantsController(AppDbContext context)
+        public ParticipantsController(AppDbContext context, ParticipantService participantService)
         {
             _context = context;
+            _participantService = participantService;
         }
 
         // GET: Participants
@@ -62,37 +64,21 @@ namespace WebApp.Areas_Admin_Controllers
         {
             if (ModelState.IsValid)
             {
-                var @event = await _context.Events.FindAsync(participant.EventId);
-                if (@event == null)
-                {
-                    return NotFound();
-                }
+                var result = await _participantService.RegisterAsync(participant);
 
-                participant.Id = Guid.NewGuid();
-
-                await using var tx = await _context.Database.BeginTransactionAsync(IsolationLevel.Serializable);
-
-                var currentCount = await _context.Participants.CountAsync(p => p.EventId == participant.EventId);
-                if (currentCount >= @event.MaxParticipants)
+                switch (result.Status)
                 {
-                    ModelState.AddModelError(string.Empty, "Event is full");
-                    ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
-                    return View(participant);
+                    case ParticipantRegistrationStatus.Ok:
+                        return RedirectToAction(nameof(Index));
+                    case ParticipantRegistrationStatus.EventNotFound:
+                        return NotFound();
+                    case ParticipantRegistrationStatus.EventFull:
+                        ModelState.AddModelError(string.Empty, "Event is full");
+                        break;
+                    case ParticipantRegistrationStatus.DuplicateRegistration:
+                        ModelState.AddModelError(string.Empty, "Already registered for this event");
+                        break;
                 }
-
-                _context.Add(participant);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                    await tx.CommitAsync();
-                }
-                catch (DbUpdateException)
-                {
-                    ModelState.AddModelError(string.Empty, "Already registered for this event");
-                    ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
-                    return View(participant);
-                }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);
             return View(participant);

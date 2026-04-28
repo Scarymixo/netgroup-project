@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using App.BLL.Services;
 using App.DAL.EF;
 using App.Domain;
 using App.Domain.Identity;
@@ -16,11 +17,13 @@ public class EventsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<AppUser> _userManager;
+    private readonly EventService _eventService;
 
-    public EventsController(AppDbContext context, UserManager<AppUser> userManager)
+    public EventsController(AppDbContext context, UserManager<AppUser> userManager, EventService eventService)
     {
         _context = context;
         _userManager = userManager;
+        _eventService = eventService;
     }
 
     // GET: Events
@@ -109,16 +112,19 @@ public class EventsController : Controller
         {
             try
             {
-                var existing = await _context.Events.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
-                if (existing == null) return NotFound();
-
-                var currentCount = await _context.Participants.CountAsync(p => p.EventId == id);
-                if (@event.MaxParticipants < currentCount)
+                var capacity = await _eventService.CheckMaxParticipantsChangeAsync(id, @event.MaxParticipants);
+                if (capacity.Status == EventCapacityChangeStatus.EventNotFound)
+                {
+                    return NotFound();
+                }
+                if (capacity.Status == EventCapacityChangeStatus.BelowCurrentRegistered)
                 {
                     ModelState.AddModelError(nameof(Event.MaxParticipants),
-                        $"MaxParticipants cannot be lower than current registered count ({currentCount}).");
+                        $"MaxParticipants cannot be lower than current registered count ({capacity.CurrentRegistered}).");
                     return View(@event);
                 }
+
+                var existing = (await _context.Events.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id))!;
 
                 @event.StartTime = DateTime.SpecifyKind(@event.StartTime, DateTimeKind.Utc);
                 @event.EndTime = DateTime.SpecifyKind(@event.EndTime, DateTimeKind.Utc);

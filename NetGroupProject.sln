@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!SolutionItems", "!Solution
 		README.md = README.md
 		Directory.Build.Props = Directory.Build.Props
 		.gitignore = .gitignore
-		CLAUDE.md = CLAUDE.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.BLL", "App.BLL\App.BLL.csproj", "{4202B958-0BB0-44DA-B0FB-1AE1B4EE6C9D}"

@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using App.BLL.Services;
 using App.DAL.EF;
 using App.Domain.Identity;
 using App.DTO.v1;
@@ -21,11 +22,13 @@ namespace WebApp.ApiControllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly EventService _eventService;
 
-        public EventsController(AppDbContext context, UserManager<AppUser> userManager)
+        public EventsController(AppDbContext context, UserManager<AppUser> userManager, EventService eventService)
         {
             _context = context;
             _userManager = userManager;
+            _eventService = eventService;
         }
 
         // GET: api/v1/Events
@@ -66,22 +69,21 @@ namespace WebApp.ApiControllers
                 return BadRequest();
             }
 
-            var existing = await _context.Events.FindAsync(id);
-            if (existing == null)
+            var capacity = await _eventService.CheckMaxParticipantsChangeAsync(id, dto.MaxParticipants);
+            if (capacity.Status == EventCapacityChangeStatus.EventNotFound)
             {
                 return NotFound();
             }
-
-            var currentCount = await _context.Participants.CountAsync(p => p.EventId == id);
-            if (dto.MaxParticipants < currentCount)
+            if (capacity.Status == EventCapacityChangeStatus.BelowCurrentRegistered)
             {
                 return BadRequest(new RestApiErrorResponse
                 {
                     Status = HttpStatusCode.BadRequest,
-                    Error = $"MaxParticipants below current registered count ({currentCount})"
+                    Error = $"MaxParticipants below current registered count ({capacity.CurrentRegistered})"
                 });
             }
 
+            var existing = (await _context.Events.FindAsync(id))!;
             existing.EventName = dto.EventName;
             existing.MaxParticipants = dto.MaxParticipants;
             existing.StartTime = dto.StartTime;
