@@ -2848,6 +2848,16 @@
           "bin/placeholder/App.Domain.dll": {}
         }
       },
+      "App.DTO/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/App.DTO.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/App.DTO.dll": {}
+        }
+      },
       "Base.Contracts.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -2869,6 +2879,20 @@
         },
         "runtime": {
           "bin/placeholder/Base.Domain.dll": {}
+        }
+      },
+      "Base.Helpers/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.0.1",
+          "System.IdentityModel.Tokens.Jwt": "8.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Base.Helpers.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Base.Helpers.dll": {}
         }
       }
     }
@@ -7482,6 +7506,11 @@
       "path": "../App.Domain/App.Domain.csproj",
       "msbuildProject": "../App.Domain/App.Domain.csproj"
     },
+    "App.DTO/1.0.0": {
+      "type": "project",
+      "path": "../App.DTO/App.DTO.csproj",
+      "msbuildProject": "../App.DTO/App.DTO.csproj"
+    },
     "Base.Contracts.Domain/1.0.0": {
       "type": "project",
       "path": "../Base.Contracts.Domain/Base.Contracts.Domain.csproj",
@@ -7491,12 +7520,19 @@
       "type": "project",
       "path": "../Base.Domain/Base.Domain.csproj",
       "msbuildProject": "../Base.Domain/Base.Domain.csproj"
+    },
+    "Base.Helpers/1.0.0": {
+      "type": "project",
+      "path": "../Base.Helpers/Base.Helpers.csproj",
+      "msbuildProject": "../Base.Helpers/Base.Helpers.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "App.DAL.EF >= 1.0.0",
+      "App.DTO >= 1.0.0",
       "Asp.Versioning.Mvc.ApiExplorer >= 10.0.0",
+      "Base.Helpers >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.7",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 10.0.7",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.7",
@@ -7538,6 +7574,12 @@
           "projectReferences": {
             "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.DAL.EF\\App.DAL.EF.csproj": {
               "projectPath": "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.DAL.EF\\App.DAL.EF.csproj"
+            },
+            "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.DTO\\App.DTO.csproj": {
+              "projectPath": "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.DTO\\App.DTO.csproj"
+            },
+            "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\Base.Helpers\\Base.Helpers.csproj": {
+              "projectPath": "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\Base.Helpers\\Base.Helpers.csproj"
             }
           }
         }

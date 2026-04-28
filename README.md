@@ -3,17 +3,17 @@
 - Create a system which enables to create events and for users to register to those events. The app has two roles, admin and user, but only the admin can authenticate and login.
 
 ### General requirements
-- The app has to have a header with a authenticate button, so that the admin can login
+- The app has to have a header with a authenticate button, so that the admin can log in
 - The app has to include a list of events. Events appear when an admin creates them. If there are no events, the corresponding message is displayed.
 - No hard requirement for functional requirements like validating fields or showing error messages.
 
 ### Admin user requirements
-- Admin user can login with email and password. (Login info has to be in app config)
+- Admin user can log in with email and password. (Login info has to be in app config)
 - Admin can create new events. Events have a name, time and maximum people
 - Admins do not have to have the ability to delete events
 
 ### User requirements
-- Cannot login
+- Cannot log in
 - Entering the app user can see admin created events
 - Can choose an event from the list and register
 - One user can register to multiple events
@@ -22,7 +22,7 @@
 
 ### Technology used
 - Backend in .NET
-- Frontend in Vue
+- Frontend in Vue (In separate repo)
 - Database in PostgreSQL
 
 ## Running

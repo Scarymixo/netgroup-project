@@ -9,7 +9,9 @@
       "WebApp/1.0.0": {
         "dependencies": {
           "App.DAL.EF": "1.0.0",
+          "App.DTO": "1.0.0",
           "Asp.Versioning.Mvc.ApiExplorer": "10.0.0",
+          "Base.Helpers": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.7",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "10.0.7",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.7",
@@ -2237,6 +2239,14 @@
           }
         }
       },
+      "App.DTO/1.0.0": {
+        "runtime": {
+          "App.DTO.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Base.Contracts.Domain/1.0.0": {
         "runtime": {
           "Base.Contracts.Domain.dll": {
@@ -2251,6 +2261,18 @@
         },
         "runtime": {
           "Base.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Base.Helpers/1.0.0": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.0.1",
+          "System.IdentityModel.Tokens.Jwt": "8.0.1"
+        },
+        "runtime": {
+          "Base.Helpers.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -3275,12 +3297,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "App.DTO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Base.Contracts.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Base.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Base.Helpers/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

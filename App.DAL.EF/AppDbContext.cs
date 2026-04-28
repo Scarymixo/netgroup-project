@@ -8,6 +8,8 @@ namespace App.DAL.EF;
 
 public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IDataProtectionKeyContext
 {
+    public DbSet<AppRefreshToken> RefreshTokens { get; set; } = default!;
+
     public DbSet<Event> Events { get; set; }
     public DbSet<Participant> Participants { get; set; }
     
@@ -22,11 +24,14 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>, IDataProt
         base.OnModelCreating(builder);
 
         // disable cascade delete
-        foreach (var relationship in builder.Model
-                     .GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-        {
-            relationship.DeleteBehavior = DeleteBehavior.Restrict;
-        }
+        // foreach (var relationship in builder.Model
+        //              .GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        // {
+        //     relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        // }
         
+        builder.Entity<Participant>()
+            .HasIndex(p => new { p.EventId, p.NationalId })
+            .IsUnique();
     }
 }

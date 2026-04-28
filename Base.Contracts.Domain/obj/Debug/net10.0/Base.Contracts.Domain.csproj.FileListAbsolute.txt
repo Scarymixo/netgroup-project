@@ -9,3 +9,4 @@ C:\Users\mikos\RiderProjects\NetGroupProject\Base.Contracts.Domain\obj\Debug\net
 C:\Users\mikos\RiderProjects\NetGroupProject\Base.Contracts.Domain\obj\Debug\net10.0\refint\Base.Contracts.Domain.dll
 C:\Users\mikos\RiderProjects\NetGroupProject\Base.Contracts.Domain\obj\Debug\net10.0\Base.Contracts.Domain.pdb
 C:\Users\mikos\RiderProjects\NetGroupProject\Base.Contracts.Domain\obj\Debug\net10.0\ref\Base.Contracts.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\Base.Contracts.Domain\obj\Debug\net10.0\Base.Contracts.Domain.sourcelink.json

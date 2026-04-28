@@ -452,3 +452,7 @@ C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\Swashbuckl
 C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\obj\Debug\net10.0\WebApp.sourcelink.json
+C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\App.DTO.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\Base.Helpers.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\App.DTO.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\WebApp\bin\Debug\net10.0\Base.Helpers.pdb
