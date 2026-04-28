@@ -1,110 +1,121 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using App.DAL.EF;
-using App.Domain;
+using App.Domain.Identity;
+using App.DTO.v1.Mappers;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using EventDto = App.DTO.v1.Event;
 
 namespace WebApp.ApiControllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class EventsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public EventsController(AppDbContext context)
+        public EventsController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: api/Events
+        // GET: api/v1/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        [ProducesResponseType(typeof(IEnumerable<EventDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
         {
-            return await _context.Events.ToListAsync();
+            var entities = await _context.Events.ToListAsync();
+            return entities.Select(EventMapper.Map).ToList();
         }
 
-        // GET: api/Events/5
+        // GET: api/v1/Events/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(Guid id)
+        [ProducesResponseType(typeof(EventDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<EventDto>> GetEvent(Guid id)
         {
-            var @event = await _context.Events.FindAsync(id);
+            var entity = await _context.Events.FindAsync(id);
 
-            if (@event == null)
+            if (entity == null)
             {
                 return NotFound();
             }
 
-            return @event;
+            return EventMapper.Map(entity);
         }
 
-        // PUT: api/Events/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/v1/Events/5
         [HttpPut("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PutEvent(Guid id, Event @event)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutEvent(Guid id, EventDto dto)
         {
-            if (id != @event.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@event).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EventExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Events
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult<Event>> PostEvent(Event @event)
-        {
-            _context.Events.Add(@event);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
-        }
-
-        // DELETE: api/Events/5
-        [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> DeleteEvent(Guid id)
-        {
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var existing = await _context.Events.FindAsync(id);
+            if (existing == null)
             {
                 return NotFound();
             }
 
-            _context.Events.Remove(@event);
+            existing.EventName = dto.EventName;
+            existing.MaxParticipants = dto.MaxParticipants;
+            existing.StartTime = dto.StartTime;
+            existing.EndTime = dto.EndTime;
+            existing.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EventExists(Guid id)
+        // POST: api/v1/Events
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(EventDto), StatusCodes.Status201Created)]
+        public async Task<ActionResult<EventDto>> PostEvent(EventDto dto)
         {
-            return _context.Events.Any(e => e.Id == id);
+            var entity = EventMapper.Map(dto);
+            entity.Id = Guid.NewGuid();
+            entity.AppUserId = Guid.Parse(_userManager.GetUserId(User)!);
+            entity.CreatedAt = DateTime.UtcNow;
+
+            _context.Events.Add(entity);
+            await _context.SaveChangesAsync();
+
+            var result = EventMapper.Map(entity);
+            return CreatedAtAction(nameof(GetEvent), new { id = result.Id, version = "1.0" }, result);
+        }
+
+        // DELETE: api/v1/Events/5
+        [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteEvent(Guid id)
+        {
+            var entity = await _context.Events.FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            _context.Events.Remove(entity);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

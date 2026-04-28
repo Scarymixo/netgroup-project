@@ -2240,6 +2240,9 @@
         }
       },
       "App.DTO/1.0.0": {
+        "dependencies": {
+          "App.Domain": "1.0.0"
+        },
         "runtime": {
           "App.DTO.dll": {
             "assemblyVersion": "1.0.0.0",

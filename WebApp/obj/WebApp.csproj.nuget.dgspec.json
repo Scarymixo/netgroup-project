@@ -726,7 +726,11 @@
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.Domain\\App.Domain.csproj": {
+                "projectPath": "C:\\Users\\mikos\\RiderProjects\\NetGroupProject\\App.Domain\\App.Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

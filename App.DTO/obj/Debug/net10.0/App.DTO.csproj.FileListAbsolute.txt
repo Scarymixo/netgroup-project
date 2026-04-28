@@ -10,3 +10,11 @@ C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\App.DTO.d
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\refint\App.DTO.dll
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\App.DTO.pdb
 C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\ref\App.DTO.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\App.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\Base.Contracts.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\Base.Domain.dll
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\App.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\Base.Contracts.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\bin\Debug\net10.0\Base.Domain.pdb
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\App.DTO.csproj.AssemblyReference.cache
+C:\Users\mikos\RiderProjects\NetGroupProject\App.DTO\obj\Debug\net10.0\App.DTO.csproj.Up2Date

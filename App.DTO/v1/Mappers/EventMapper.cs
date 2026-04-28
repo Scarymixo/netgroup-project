@@ -1,0 +1,28 @@
+namespace App.DTO.v1.Mappers;
+
+public static class EventMapper
+{
+    public static Event Map(App.Domain.Event entity)
+    {
+        return new Event
+        {
+            Id = entity.Id,
+            EventName = entity.EventName,
+            MaxParticipants = entity.MaxParticipants,
+            StartTime = entity.StartTime,
+            EndTime = entity.EndTime,
+        };
+    }
+
+    public static App.Domain.Event Map(Event dto)
+    {
+        return new App.Domain.Event
+        {
+            Id = dto.Id,
+            EventName = dto.EventName,
+            MaxParticipants = dto.MaxParticipants,
+            StartTime = dto.StartTime,
+            EndTime = dto.EndTime,
+        };
+    }
+}
