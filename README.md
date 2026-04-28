@@ -85,6 +85,6 @@ dotnet aspnet-codegenerator controller -name ParticipantsController -m  Particip
 API Controllers. (Run from inside the WebApp directory.)
 
 ~~~bash
-dotnet aspnet-codegenerator controller -name EventsController     -m App.Domain.Finance.Event    -actions -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+dotnet aspnet-codegenerator controller -name EventsController     -m App.Domain.Event    -actions -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 dotnet aspnet-codegenerator controller -name ParticipantsController     -m App.Domain.Participant     -actions -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
 ~~~
