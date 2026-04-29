@@ -36,8 +36,10 @@ namespace WebApp.ApiControllers
         [ProducesResponseType(typeof(IEnumerable<EventDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<EventDto>>> GetEvents()
         {
-            var entities = await _context.Events.ToListAsync();
-            return entities.Select(EventMapper.Map).ToList();
+            var entities = await _context.Events
+                .Select(e => new { Entity = e, RegisteredCount = e.Participants!.Count })
+                .ToListAsync();
+            return entities.Select(x => EventMapper.Map(x.Entity, x.RegisteredCount)).ToList();
         }
 
         // GET: api/v1/Events/5
@@ -53,7 +55,8 @@ namespace WebApp.ApiControllers
                 return NotFound();
             }
 
-            return EventMapper.Map(entity);
+            var registeredCount = await _context.Participants.CountAsync(p => p.EventId == id);
+            return EventMapper.Map(entity, registeredCount);
         }
 
         // PUT: api/v1/Events/5

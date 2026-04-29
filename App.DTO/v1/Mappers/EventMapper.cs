@@ -2,7 +2,7 @@ namespace App.DTO.v1.Mappers;
 
 public static class EventMapper
 {
-    public static Event Map(App.Domain.Event entity)
+    public static Event Map(App.Domain.Event entity, int registeredCount = 0)
     {
         return new Event
         {
@@ -11,6 +11,7 @@ public static class EventMapper
             MaxParticipants = entity.MaxParticipants,
             StartTime = entity.StartTime,
             EndTime = entity.EndTime,
+            SpotsLeft = Math.Max(0, entity.MaxParticipants - registeredCount),
         };
     }
 

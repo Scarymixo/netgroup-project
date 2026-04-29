@@ -7,13 +7,20 @@ public class Event : IValidatableObject
     public Guid Id { get; set; }
 
     [StringLength(128, MinimumLength = 1)]
+    [Required]
     public string EventName { get; set; } = default!;
 
     [Range(1, 100000)]
+    [Required]
     public int MaxParticipants { get; set; }
 
+    [Required]
     public DateTime StartTime { get; set; }
+    
+    [Required]
     public DateTime EndTime { get; set; }
+
+    public int SpotsLeft { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
