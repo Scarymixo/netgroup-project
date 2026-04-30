@@ -8,8 +8,7 @@ COPY App.BLL/*.csproj ./App.BLL/
 COPY App.DAL.EF/*.csproj ./App.DAL.EF/
 COPY App.Domain/*.csproj ./App.Domain/
 COPY App.DTO/*.csproj ./App.DTO/
-COPY App.Resources/*.csproj ./App.Resources/
-COPY App.TestProject/*.csproj ./App.TestProject/
+COPY TestProject/*.csproj ./TestProject/
 COPY Base.Contracts.Domain/*.csproj ./Base.Contracts.Domain/
 COPY Base.Domain/*.csproj ./Base.Domain/
 COPY Base.Helpers/*.csproj ./Base.Helpers/
@@ -22,8 +21,7 @@ COPY App.BLL/. ./App.BLL/
 COPY App.DAL.EF/. ./App.DAL.EF/
 COPY App.Domain/. ./App.Domain/
 COPY App.DTO/. ./App.DTO/
-COPY App.Resources/. ./App.Resources/
-COPY App.TestProject/. ./App.TestProject/
+COPY TestProject/. ./TestProject/
 COPY Base.Contracts.Domain/. ./Base.Contracts.Domain/
 COPY Base.Domain/. ./Base.Domain/
 COPY Base.Helpers/. ./Base.Helpers/
