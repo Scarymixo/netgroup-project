@@ -231,7 +231,7 @@ namespace App.DAL.EF.Migrations
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    NationalId = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false)
+                    NationalId = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false)
                 },
                 constraints: table =>
                 {

@@ -18,6 +18,7 @@ public class Participant
     public string LastName { get; set; } = default!;
 
     [StringLength(25, MinimumLength = 1)]
+    [RegularExpression(@"^\d+$", ErrorMessage = "National ID must contain only digits.")]
     [Required]
     public string NationalId { get; set; } = default!;
 }
