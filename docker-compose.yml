@@ -1,0 +1,35 @@
+﻿services:
+  aspnet:
+    build: .
+    container_name: netgroupback
+    depends_on:
+      - postgres
+    ports:
+      - "87:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Server=postgres;Port=5432;Database=netgroupbackapp-postgres;Username=postgres;Password=postgres"
+      DataInitialization__DropDatabase: "false"
+      DataInitialization__MigrateDatabase: "true"
+      DataInitialization__SeedIdentity: "true"
+      DataInitialization__SeedData: "false"
+      JWT__Key: "${JWT_KEY:?JWT_KEY must be set}"
+      JWT__Issuer: "netgroup.app"
+      JWT__Audience: "netgroup.app"
+      JWT__ExpiresInSeconds: "1800"
+
+  postgres:
+    container_name: "netgroupbackapp-postgres"
+    pull_policy: always
+    # https://github.com/baosystems/docker-postgis/pkgs/container/postgis
+    image: ghcr.io/baosystems/postgis:18
+    command: postgres -c 'max_connections=1000'
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql
+
+volumes:
+  postgres-dev-data:
