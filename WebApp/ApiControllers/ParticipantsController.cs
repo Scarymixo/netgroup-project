@@ -27,16 +27,6 @@ namespace WebApp.ApiControllers
             _participantService = participantService;
         }
 
-        // GET: api/v1/Participants
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [ProducesResponseType(typeof(IEnumerable<ParticipantDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<ParticipantDto>>> GetParticipants()
-        {
-            var entities = await _context.Participants.ToListAsync();
-            return entities.Select(ParticipantMapper.Map).ToList();
-        }
-
         // GET: api/v1/Participants/5
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

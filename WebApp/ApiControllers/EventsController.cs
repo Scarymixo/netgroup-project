@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using EventDto = App.DTO.v1.Event;
+using ParticipantDto = App.DTO.v1.Participant;
 
 namespace WebApp.ApiControllers
 {
@@ -57,6 +58,24 @@ namespace WebApp.ApiControllers
 
             var registeredCount = await _context.Participants.CountAsync(p => p.EventId == id);
             return EventMapper.Map(entity, registeredCount);
+        }
+
+        // GET: api/v1/Events/5/Participants
+        [HttpGet("{id}/Participants")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(typeof(IEnumerable<ParticipantDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<ParticipantDto>>> GetEventParticipants(Guid id)
+        {
+            if (!await _context.Events.AnyAsync(e => e.Id == id))
+            {
+                return NotFound();
+            }
+
+            var entities = await _context.Participants
+                .Where(p => p.EventId == id)
+                .ToListAsync();
+            return entities.Select(ParticipantMapper.Map).ToList();
         }
 
         // PUT: api/v1/Events/5
