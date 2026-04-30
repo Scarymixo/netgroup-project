@@ -25,10 +25,10 @@ public class Event : BaseEntity, IValidatableObject
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (StartTime <= DateTime.UtcNow)
+        if (StartTime < DateTime.UtcNow.AddHours(1))
         {
             yield return new ValidationResult(
-                "StartTime must be in the future.",
+                "StartTime must be at least 1 hour in the future.",
                 new[] { nameof(StartTime) });
         }
 
