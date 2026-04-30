@@ -78,6 +78,9 @@ namespace WebApp.Areas_Admin_Controllers
                     case ParticipantRegistrationStatus.DuplicateRegistration:
                         ModelState.AddModelError(string.Empty, "Already registered for this event");
                         break;
+                    case ParticipantRegistrationStatus.SerializationConflict:
+                        ModelState.AddModelError(string.Empty, "Registration is temporarily contended, please try again");
+                        break;
                 }
             }
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "EventName", participant.EventId);

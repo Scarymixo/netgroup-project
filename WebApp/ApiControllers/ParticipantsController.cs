@@ -69,6 +69,12 @@ namespace WebApp.ApiControllers
                         Status = HttpStatusCode.Conflict,
                         Error = "Already registered for this event"
                     });
+                case ParticipantRegistrationStatus.SerializationConflict:
+                    return StatusCode((int)HttpStatusCode.ServiceUnavailable, new RestApiErrorResponse
+                    {
+                        Status = HttpStatusCode.ServiceUnavailable,
+                        Error = "Registration is temporarily contended, please retry"
+                    });
             }
 
             var mapped = ParticipantMapper.Map(result.Participant!);

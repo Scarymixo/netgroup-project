@@ -7,7 +7,8 @@ public enum ParticipantRegistrationStatus
     Ok,
     EventNotFound,
     EventFull,
-    DuplicateRegistration
+    DuplicateRegistration,
+    SerializationConflict
 }
 
 public sealed record ParticipantRegistrationResult(
