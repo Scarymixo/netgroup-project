@@ -113,7 +113,10 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-SetupAppData(app, app.Environment, app.Configuration);
+if (!app.Environment.IsEnvironment("Testing"))
+{
+    SetupAppData(app, app.Environment, app.Configuration);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -238,3 +241,5 @@ static void WaitDbConnection(AppDbContext ctx, ILogger<IApplicationBuilder> logg
         }
     }
 }
+
+public partial class Program;

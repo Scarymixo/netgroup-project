@@ -16,13 +16,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_AllRequiredFieldsPopulated_ReturnsValid()
     {
-        // Arrange
+
         var p = BuildValid();
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeTrue();
         results.Should().BeEmpty();
     }
@@ -30,14 +28,12 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_MissingFirstName_ReturnsValidationError()
     {
-        // Arrange
+
         var p = BuildValid();
         p.FirstName = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.FirstName)));
     }
@@ -45,14 +41,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_MissingLastName_ReturnsValidationError()
     {
-        // Arrange
         var p = BuildValid();
         p.LastName = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
 
-        // Assert
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.LastName)));
     }
@@ -60,14 +53,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_MissingNationalId_ReturnsValidationError()
     {
-        // Arrange
         var p = BuildValid();
         p.NationalId = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
 
-        // Assert
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.NationalId)));
     }
@@ -75,14 +65,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_FirstNameExceedsMaxLength_ReturnsValidationError()
     {
-        // Arrange
         var p = BuildValid();
         p.FirstName = new string('a', 51);
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.FirstName)));
     }
@@ -90,14 +77,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_LastNameExceedsMaxLength_ReturnsValidationError()
     {
-        // Arrange
         var p = BuildValid();
         p.LastName = new string('b', 51);
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.LastName)));
     }
@@ -105,14 +89,11 @@ public class ParticipantValidationTests
     [Fact]
     public void Validate_NationalIdExceedsMaxLength_ReturnsValidationError()
     {
-        // Arrange
         var p = BuildValid();
         p.NationalId = new string('1', 26);
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DomainParticipant.NationalId)));
     }
@@ -122,14 +103,11 @@ public class ParticipantValidationTests
     [InlineData(50)]
     public void Validate_FirstNameAtBoundary_ReturnsValid(int length)
     {
-        // Arrange
         var p = BuildValid();
         p.FirstName = new string('a', length);
-
-        // Act
+        
         var (isValid, _) = TestHelpers.ValidationRunner.Validate(p);
-
-        // Assert
+        
         isValid.Should().BeTrue();
     }
 }
