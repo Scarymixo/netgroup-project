@@ -10,7 +10,6 @@ public class ParticipantMapperTests
     [Fact]
     public void Map_Entity_CopiesAllFields()
     {
-        // Arrange
         var entity = new DomainParticipant
         {
             Id = Guid.NewGuid(),
@@ -20,10 +19,8 @@ public class ParticipantMapperTests
             NationalId = "1234567890",
         };
 
-        // Act
         var dto = ParticipantMapper.Map(entity);
-
-        // Assert
+        
         dto.Id.Should().Be(entity.Id);
         dto.EventId.Should().Be(entity.EventId);
         dto.FirstName.Should().Be(entity.FirstName);
@@ -34,7 +31,6 @@ public class ParticipantMapperTests
     [Fact]
     public void Map_Dto_ReturnsDomainEntityWithMatchingFields()
     {
-        // Arrange
         var dto = new DtoParticipant
         {
             Id = Guid.NewGuid(),
@@ -44,10 +40,8 @@ public class ParticipantMapperTests
             NationalId = "987654",
         };
 
-        // Act
         var entity = ParticipantMapper.Map(dto);
-
-        // Assert
+        
         entity.Id.Should().Be(dto.Id);
         entity.EventId.Should().Be(dto.EventId);
         entity.FirstName.Should().Be(dto.FirstName);
@@ -68,10 +62,8 @@ public class ParticipantMapperTests
             NationalId = "C",
         };
 
-        // Act
         var entity = ParticipantMapper.Map(dto);
-
-        // Assert
+        
         entity.Id.Should().Be(Guid.Empty);
     }
 }

@@ -19,52 +19,40 @@ public class EventMapperTests
     [Fact]
     public void Map_EntityWithRegisteredCountLessThanMax_ReturnsPositiveSpotsLeft()
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: 10);
 
-        // Act
         var dto = EventMapper.Map(entity, registeredCount: 3);
 
-        // Assert
         dto.SpotsLeft.Should().Be(7);
     }
 
     [Fact]
     public void Map_EntityWithRegisteredCountEqualToMax_ReturnsZeroSpotsLeft()
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: 5);
 
-        // Act
         var dto = EventMapper.Map(entity, registeredCount: 5);
 
-        // Assert
         dto.SpotsLeft.Should().Be(0);
     }
 
     [Fact]
     public void Map_EntityWithRegisteredCountGreaterThanMax_ReturnsZeroSpotsLeft()
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: 5);
 
-        // Act
         var dto = EventMapper.Map(entity, registeredCount: 99);
 
-        // Assert
         dto.SpotsLeft.Should().Be(0);
     }
 
     [Fact]
     public void Map_EntityWithDefaultRegisteredCount_ReturnsSpotsLeftEqualToMax()
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: 42);
 
-        // Act
         var dto = EventMapper.Map(entity);
 
-        // Assert
         dto.SpotsLeft.Should().Be(42);
     }
 
@@ -79,26 +67,20 @@ public class EventMapperTests
     [InlineData(100000, 50000, 50000)]
     public void Map_EntityWithVariousRegisteredCounts_ReturnsExpectedSpotsLeft(int max, int registered, int expected)
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: max);
 
-        // Act
         var dto = EventMapper.Map(entity, registered);
 
-        // Assert
         dto.SpotsLeft.Should().Be(expected);
     }
 
     [Fact]
     public void Map_Entity_CopiesAllScalarFields()
     {
-        // Arrange
         var entity = BuildEntity(maxParticipants: 25);
 
-        // Act
         var dto = EventMapper.Map(entity, registeredCount: 5);
 
-        // Assert
         dto.Id.Should().Be(entity.Id);
         dto.EventName.Should().Be(entity.EventName);
         dto.MaxParticipants.Should().Be(entity.MaxParticipants);
@@ -109,7 +91,6 @@ public class EventMapperTests
     [Fact]
     public void Map_Dto_ReturnsDomainEntityWithMatchingFields()
     {
-        // Arrange
         var dto = new DtoEvent
         {
             Id = Guid.NewGuid(),
@@ -120,10 +101,8 @@ public class EventMapperTests
             SpotsLeft = 10,
         };
 
-        // Act
         var entity = EventMapper.Map(dto);
 
-        // Assert
         entity.Id.Should().Be(dto.Id);
         entity.EventName.Should().Be(dto.EventName);
         entity.MaxParticipants.Should().Be(dto.MaxParticipants);
@@ -145,7 +124,6 @@ public class EventMapperTests
             SpotsLeft = 999,
         };
 
-        // Act
         var entity = EventMapper.Map(dto);
 
         // Assert — round-trip max stays put; SpotsLeft is intentionally not part of the domain

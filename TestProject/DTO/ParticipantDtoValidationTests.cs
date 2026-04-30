@@ -17,27 +17,21 @@ public class ParticipantDtoValidationTests
     [Fact]
     public void Validate_AllRequiredFieldsPopulated_ReturnsValid()
     {
-        // Arrange
         var dto = BuildValid();
-
-        // Act
+        
         var (isValid, _) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeTrue();
     }
 
     [Fact]
     public void Validate_MissingFirstName_ReturnsValidationError()
     {
-        // Arrange
         var dto = BuildValid();
         dto.FirstName = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DtoParticipant.FirstName)));
     }
@@ -45,14 +39,11 @@ public class ParticipantDtoValidationTests
     [Fact]
     public void Validate_MissingLastName_ReturnsValidationError()
     {
-        // Arrange
         var dto = BuildValid();
         dto.LastName = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DtoParticipant.LastName)));
     }
@@ -60,14 +51,11 @@ public class ParticipantDtoValidationTests
     [Fact]
     public void Validate_MissingNationalId_ReturnsValidationError()
     {
-        // Arrange
         var dto = BuildValid();
         dto.NationalId = "";
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DtoParticipant.NationalId)));
     }
@@ -75,14 +63,11 @@ public class ParticipantDtoValidationTests
     [Fact]
     public void Validate_FirstNameExceedsMaxLength_ReturnsValidationError()
     {
-        // Arrange
         var dto = BuildValid();
         dto.FirstName = new string('a', 51);
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DtoParticipant.FirstName)));
     }
@@ -90,14 +75,11 @@ public class ParticipantDtoValidationTests
     [Fact]
     public void Validate_NationalIdExceedsMaxLength_ReturnsValidationError()
     {
-        // Arrange
         var dto = BuildValid();
         dto.NationalId = new string('1', 26);
-
-        // Act
+        
         var (isValid, results) = TestHelpers.ValidationRunner.Validate(dto);
-
-        // Assert
+        
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains(nameof(DtoParticipant.NationalId)));
     }

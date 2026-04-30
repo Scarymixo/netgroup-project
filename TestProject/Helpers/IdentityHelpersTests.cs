@@ -23,13 +23,10 @@ public class IdentityHelpersTests
     [Fact]
     public void GenerateJwt_ValidInputs_ReturnsParseableToken()
     {
-        // Arrange
         var claims = SampleClaims();
-
-        // Act
+        
         var jwt = IdentityHelpers.GenerateJwt(claims, Key, Issuer, Audience, expiresInSeconds: 60);
 
-        // Assert
         jwt.Should().NotBeNullOrWhiteSpace();
         var parsed = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
         parsed.Issuer.Should().Be(Issuer);
@@ -39,13 +36,10 @@ public class IdentityHelpersTests
     [Fact]
     public void GenerateJwt_WithClaims_TokenContainsAllClaims()
     {
-        // Arrange
         var claims = SampleClaims();
 
-        // Act
         var jwt = IdentityHelpers.GenerateJwt(claims, Key, Issuer, Audience, expiresInSeconds: 60);
 
-        // Assert
         var parsed = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
         parsed.Claims.Should().Contain(c => c.Type == ClaimTypes.NameIdentifier && c.Value == "user-123");
         parsed.Claims.Should().Contain(c => c.Type == ClaimTypes.Email && c.Value == "user@example.com");
@@ -54,13 +48,10 @@ public class IdentityHelpersTests
     [Fact]
     public void GenerateJwt_PositiveExpiresInSeconds_TokenExpirationMatches()
     {
-        // Arrange
         var before = DateTime.UtcNow;
 
-        // Act
         var jwt = IdentityHelpers.GenerateJwt(SampleClaims(), Key, Issuer, Audience, expiresInSeconds: 120);
 
-        // Assert
         var parsed = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
         parsed.ValidTo.Should().BeOnOrAfter(before.AddSeconds(115));
         parsed.ValidTo.Should().BeOnOrBefore(DateTime.UtcNow.AddSeconds(125));
@@ -69,53 +60,41 @@ public class IdentityHelpersTests
     [Fact]
     public void ValidateJWT_TokenSignedWithSameKey_ReturnsTrue()
     {
-        // Arrange
         var jwt = IdentityHelpers.GenerateJwt(SampleClaims(), Key, Issuer, Audience, expiresInSeconds: 60);
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(jwt, Key, Issuer, Audience);
 
-        // Assert
         result.Should().BeTrue();
     }
 
     [Fact]
     public void ValidateJWT_TokenSignedWithDifferentKey_ReturnsFalse()
     {
-        // Arrange
         var jwt = IdentityHelpers.GenerateJwt(SampleClaims(), Key, Issuer, Audience, expiresInSeconds: 60);
         var wrongKey = "completely_different_signing_key_value_!!";
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(jwt, wrongKey, Issuer, Audience);
 
-        // Assert
         result.Should().BeFalse();
     }
 
     [Fact]
     public void ValidateJWT_WrongIssuer_ReturnsFalse()
     {
-        // Arrange
         var jwt = IdentityHelpers.GenerateJwt(SampleClaims(), Key, Issuer, Audience, expiresInSeconds: 60);
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(jwt, Key, "wrong-issuer", Audience);
 
-        // Assert
         result.Should().BeFalse();
     }
 
     [Fact]
     public void ValidateJWT_WrongAudience_ReturnsFalse()
     {
-        // Arrange
         var jwt = IdentityHelpers.GenerateJwt(SampleClaims(), Key, Issuer, Audience, expiresInSeconds: 60);
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(jwt, Key, Issuer, "wrong-audience");
 
-        // Assert
         result.Should().BeFalse();
     }
 
@@ -135,36 +114,28 @@ public class IdentityHelpersTests
             signingCredentials: creds);
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(jwt, Key, Issuer, Audience);
 
-        // Assert
         result.Should().BeTrue();
     }
 
     [Fact]
     public void ValidateJWT_MalformedTokenString_ReturnsFalse()
     {
-        // Arrange
         var malformed = "not.a.real.jwt";
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(malformed, Key, Issuer, Audience);
 
-        // Assert
         result.Should().BeFalse();
     }
 
     [Fact]
     public void ValidateJWT_EmptyString_ReturnsFalse()
     {
-        // Arrange
         var empty = "";
 
-        // Act
         var result = IdentityHelpers.ValidateJWT(empty, Key, Issuer, Audience);
 
-        // Assert
         result.Should().BeFalse();
     }
 }
