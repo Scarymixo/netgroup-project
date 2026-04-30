@@ -3,7 +3,9 @@
     build: .
     container_name: netgroupback
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    restart: on-failure
     ports:
       - "87:8080"
     environment:
@@ -28,6 +30,11 @@
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
       - postgres-dev-data:/var/lib/postgresql
 
