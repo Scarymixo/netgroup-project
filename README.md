@@ -3,7 +3,9 @@
 Event registration system. Admins create events; users (no login required) browse them and register with their personal details.
 
 - **Backend public URL:** [misauk-netgroup-back.proxy.itcollege.ee](https://misauk-netgroup-back.proxy.itcollege.ee) (MVC, used for quick testing)
+- **Backend repository URL:** [github.com/Scarymixo/netgroup-project](https://github.com/Scarymixo/netgroup-project)
 - **Frontend public URL:** [misauk-netgroup.proxy.itcollege.ee](https://misauk-netgroup.proxy.itcollege.ee) (Vue, separate repo)
+- **Frontend repository URL:** [https://github.com/Scarymixo/netgroup-project-front](https://github.com/Scarymixo/netgroup-project-front)
 
 ## Overview
 
