@@ -2,8 +2,8 @@
 
 Event registration system. Admins create events; users (no login required) browse them and register with their personal details.
 
-- **Backend public URL:** misauk-netgroup-back.proxy.itcollege.ee (MVC, used for quick testing)
-- **Frontend public URL:** misauk-netgroup.proxy.itcollege.ee (Vue, separate repo)
+- **Backend public URL:** [misauk-netgroup-back.proxy.itcollege.ee] (MVC, used for quick testing)
+- **Frontend public URL:** [misauk-netgroup.proxy.itcollege.ee] (Vue, separate repo)
 
 ## Overview
 
